@@ -23,16 +23,6 @@ fun main() {
         println("Good evening $patron")
     }
     formatMenu(menuList)
-    //val menuData="shandy,Dragon's Breath,5.91"
-
-
-    /*patronList.forEachIndexed{index,patron->
-        println("Good evening $patron you're in ${index+1} line")
-        placeHolder(patron,menuList.shuffled().first())
-    }
-    menuList.forEachIndexed{
-        index,item->println("${index+1}: $item")
-    }*/
     (0..9).forEach {
         val first = patronList.shuffled().first()
         val last = lastName.shuffled().first()
@@ -109,10 +99,6 @@ private fun placeHolder(patronName:String,menuData:String) {
     println("$patronName speaks with $tavernMaster about their order.")
     val (type, name, price) = menuData.split(',')
     val message = "$patronName buys a $name ($type) for $price."
-    //println(message)
-    //performPurchase(type,price.toDouble(),name)
-    //performPurchase(type,price.toDouble(),name)
-    //performPurchase(type,price.toDouble(),name)
     val phrase=if(name=="Dragon's Breath"){
         "$patronName exclaims: ${toDragonSpeak("Ah, delicious $name!")}"
     }else{
