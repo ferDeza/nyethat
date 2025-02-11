@@ -8,17 +8,10 @@ var costDragonCoin = 1.43
 val patronList = mutableListOf("Eli", "Mordoc", "Sophie")
 val lastName = listOf("Ironfoot", "Fernsworth", "Baggins")
 val patronGold = mapOf("Eli" to 10.5, "Mordoc" to 8.0, "Sophie" to 5.5)
-val charList = mutableListOf('A', 'B', 'C', 'D', 'E', 'F', 'G')
-val intList = mutableListOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 val uniquePatrons= mutableSetOf<String>()
 fun main() {
     val menuList=File("data/tavern-menu-items.txt").readText().split('\n')
-
-    //println(patronList)
-    patronList.add(0,"fernando")
-    //println(patronList)
     patronList.remove("Eli")
-    //println(patronList)
     for (patron in patronList) {
         println("Good evening $patron")
     }
@@ -28,6 +21,7 @@ fun main() {
         val last = lastName.shuffled().first()
         val name = "$first $last"
         uniquePatrons+=name
+        uniquePatrons.distinct()
     }
     println(uniquePatrons)
     var orderCounter = 0
@@ -35,6 +29,7 @@ fun main() {
         placeHolder(uniquePatrons.shuffled().first(),menuList.shuffled().first())
         orderCounter++
     }
+    println(patronGold)
 }
 
 fun formatMenu(menuList:List<String>){
