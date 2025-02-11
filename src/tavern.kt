@@ -1,19 +1,20 @@
 import java.awt.MenuItem
 import java.io.File
 const val TAVERN_NAME = "Taernyl's Folly"
-var playerGold = 10
-var playerSilver = 10
 var dragonCoin = 5.00
 var costDragonCoin = 1.43
 val patronList = mutableListOf("Eli", "Mordoc", "Sophie")
 val lastName = listOf("Ironfoot", "Fernsworth", "Baggins")
-val patronGold = mapOf("Eli" to 10.5, "Mordoc" to 8.0, "Sophie" to 5.5)
+val patronGold = mutableMapOf<String,Double>()
 val uniquePatrons= mutableSetOf<String>()
 fun main() {
     val menuList=File("data/tavern-menu-items.txt").readText().split('\n')
     patronList.remove("Eli")
     for (patron in patronList) {
         println("Good evening $patron")
+    }
+    uniquePatrons.forEach{
+        patronGold[it]=6.0
     }
     formatMenu(menuList)
     (0..9).forEach {
@@ -29,7 +30,8 @@ fun main() {
         placeHolder(uniquePatrons.shuffled().first(),menuList.shuffled().first())
         orderCounter++
     }
-    println(patronGold)
+    //println(patronGold)
+    displayPatronBalance()
 }
 
 fun formatMenu(menuList:List<String>){
@@ -57,36 +59,10 @@ fun formatMenu(menuList:List<String>){
 
 
 }
-fun performPurchase(type:String,price: Double,name:String) {
-    displayBalance()
-    var totalPurse=playerGold+(playerSilver/100.0)
-    println("total purse : $totalPurse")
-    println("Purchasing item for $price")
-    val remainingBalance=totalPurse - price
-    println("remaining balance : ${".2f".format(remainingBalance)}")
-    var needDragonCoin=price/costDragonCoin
-    if(dragonCoin>=needDragonCoin) {
-        dragonCoin-=needDragonCoin
-        println("Madrigal buys a $name ($type) for $price. remaining ${"%.4f".format(dragonCoin)}")
-    }else{
-        println("Madrigal don't have the sufficient money")
-    }
 
-    if(playerGold>=price){
-        println("Madrigal buys a $name ($type) for $price.")
-        totalPurse-=price
-    }else{
-        println("The money of Madrigal is enough, he only have $totalPurse")
-    }
-
-    val remainingGold=remainingBalance.toInt()
-    val remainingSilver=(remainingBalance%1*10).toInt()
-    playerGold =remainingGold
-    playerSilver =remainingSilver
-    displayBalance()
-}
-private fun displayBalance(){
-    println("Player's purse balance: Gold $playerGold ,silver: $playerSilver")
+fun performPurchase(price: Double,patronName: String) {
+    val totalPurse = patronGold.getOrDefault(patronName, 0.0)
+    patronGold[patronName]=totalPurse-price
 }
 private fun placeHolder(patronName:String,menuData:String) {
     val indexOfApostrophe = TAVERN_NAME.indexOf('\'')
@@ -94,6 +70,7 @@ private fun placeHolder(patronName:String,menuData:String) {
     println("$patronName speaks with $tavernMaster about their order.")
     val (type, name, price) = menuData.split(',')
     val message = "$patronName buys a $name ($type) for $price."
+    performPurchase(price.toDouble(),patronName)
     val phrase=if(name=="Dragon's Breath"){
         "$patronName exclaims: ${toDragonSpeak("Ah, delicious $name!")}"
     }else{
@@ -101,6 +78,11 @@ private fun placeHolder(patronName:String,menuData:String) {
     }
     println(phrase)
 }
+private fun displayPatronBalance(){
+    patronGold.forEach{ patron,balance->
+         println("$patron, balance : ${"%.2f".format(balance)}")
+        }
+    }
 private fun toDragonSpeak(phrase: String) =
     phrase.replace(Regex("[aeiouAEIOU]")) {
         when (it.value) {
