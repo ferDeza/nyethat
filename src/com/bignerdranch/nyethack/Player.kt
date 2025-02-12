@@ -1,20 +1,44 @@
 package com.bignerdranch.nyethack
-
-class Player{
+import java.io.File
+class Player(_name:String, var healthPoints:Int=100,
+             var isBlessed:Boolean,private val isImmortal:Boolean) {
     //atributes
-    var name="madrigal"
-        get()=field.capitalize()
-    private set(value) {field=value.trim()}
-    var healthPoints = 0
-    val isBlessed=false
-    private val isImmortal=false
+    val hometown by lazy { selectHometown() }
+    var name:String = _name
+        get() = "${field.capitalize()} of $hometown"
+        private set(value) {
+            field = value.trim()
+        }
+
+
+    init{
+        require(healthPoints > 0, { "healthPoints must be greater than zero." })
+        require(name.isNotBlank(), { "Player must have a name." })
+    }
+    constructor(name: String) : this(name,
+        isBlessed = true,
+        isImmortal = false){
+        if (name.lowercase() == "kar") healthPoints = 40
+    }
+
     //class functions
     fun auraColor(): String {
         val auraVisible = isBlessed && healthPoints > 50 || isImmortal
         val auraColor = if (auraVisible) "GREEN" else "NONE"
         return auraColor
     }
-
+    private fun selectHometown(): String {
+        return try {
+            File("data/towns.txt")
+                .readText()
+                .split("\n").map{it.trim()
+                }
+                .shuffled()
+                .first()  // Select a random town from the list
+        } catch (e: Exception) {
+            "Unknown" // Return "Unknown" if the file is not found or something goes wrong
+        }
+    }
 fun formatHealthStatus() =
         when (healthPoints) {
             100 -> "is in excellent condition!"

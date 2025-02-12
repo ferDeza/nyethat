@@ -3,9 +3,9 @@ package com.bignerdranch.nyethack
 const val MAX_EXPERIENCE: Int = 5000
 fun main() {
 
-    val player = Player()
+    val player = Player("Madrigal")
     //player.name="stragon"
-    println(player.name+" The brave")
+    //println(player.name+" The brave")
     player.castFireBall()
     val auraColor = player.auraColor()
     printPlayerStatus(player)
