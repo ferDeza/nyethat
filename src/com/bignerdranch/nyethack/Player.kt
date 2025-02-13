@@ -1,4 +1,5 @@
 package com.bignerdranch.nyethack
+import Coordinate
 import java.io.File
 class Player(_name:String, var healthPoints:Int=100,
              var isBlessed:Boolean,private val isImmortal:Boolean) {
@@ -9,6 +10,7 @@ class Player(_name:String, var healthPoints:Int=100,
         private set(value) {
             field = value.trim()
         }
+    var currentPosition=Coordinate(0,0)
 
 
     init{
