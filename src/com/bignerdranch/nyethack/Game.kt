@@ -5,35 +5,32 @@ import townSquared
 
 const val MAX_EXPERIENCE: Int = 5000
 fun main() {
+    Game.play()
+}
 
-    val player = Player("Madrigal")
+object Game{
+    private val player = Player("Madrigal")
+    private val currentRoom:Room=townSquared()
 
-    player.castFireBall()
-    var currentRoom:Room=townSquared()
-    println(currentRoom.description())
-    println(currentRoom.load())
-
-    val auraColor = player.auraColor()
-    printPlayerStatus(player)
-    player.auraColor()
-    val karma = (Math.pow(Math.random(), (110 - player.healthPoints) / 100.0) * 20 ).toInt()
-    val karmaAura=when(karma){
-        in 0..5 ->"RED"
-        in  5..10 ->"ORANGE"
-        in 10..15->"PURPLE"
-        in 15..20 ->"GREEN"
-        else -> {"not color now"}
+    init {
+        println("Welcome Adventurer")
+        player.castFireBall()
     }
-    println("$karma and its color is  $karmaAura")
+    fun play(){
+        while(true){
+            //Play nyetHat
+            println(currentRoom.description())
+            println(currentRoom.load())
+            //player sTATUS
+            printPlayerStatus(player)
+            print("> Enter your command: ")
+            println("Last command: ${readLine()}")
+        }
+    }
+    private fun printPlayerStatus(player: Player) {
+        println("(Aura: ${player.auraColor()}) " +
+                "(Blessed: ${if (player.isBlessed) "YES" else "NO"})")
+        println("${player.name} ${player.formatHealthStatus()}")
+    }
 
 }
-
-private fun printPlayerStatus(player: Player)
- {
-    println(
-        "(Aura: ${player.auraColor()})" +
-                "(Blessed: ${if (player.isBlessed) "YES" else "NO"})"
-    )
-    println("${player.name} ${player.formatHealthStatus()}")
-}
-
