@@ -1,12 +1,18 @@
 package com.bignerdranch.nyethack
 
+import Room
+import townSquared
+
 const val MAX_EXPERIENCE: Int = 5000
 fun main() {
 
     val player = Player("Madrigal")
-    //player.name="stragon"
-    //println(player.name+" The brave")
+
     player.castFireBall()
+    var currentRoom:Room=townSquared()
+    println(currentRoom.description())
+    println(currentRoom.load())
+
     val auraColor = player.auraColor()
     printPlayerStatus(player)
     player.auraColor()
