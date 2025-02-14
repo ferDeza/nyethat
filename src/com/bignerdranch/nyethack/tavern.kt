@@ -1,4 +1,5 @@
-import java.awt.MenuItem
+package com.bignerdranch.nyethack
+import com.bignerdranch.nyethack.extensions.random as randomizer
 import java.io.File
 const val TAVERN_NAME = "Taernyl's Folly"
 var dragonCoin = 5.00
@@ -7,6 +8,10 @@ val patronList = mutableListOf("Eli", "Mordoc", "Sophie")
 val lastName = listOf("Ironfoot", "Fernsworth", "Baggins")
 val patronGold = mutableMapOf<String,Double>()
 val uniquePatrons= mutableSetOf<String>()
+
+
+
+
 fun main() {
     val menuList=File("data/tavern-menu-items.txt").readText().split('\n')
     patronList.remove("Eli")
@@ -18,16 +23,16 @@ fun main() {
     }
     formatMenu(menuList)
     (0..9).forEach {
-        val first = patronList.shuffled().first()
-        val last = lastName.shuffled().first()
+        val first = patronList.randomizer()
+        val last = lastName.randomizer()
         val name = "$first $last"
-        uniquePatrons+=name
+        uniquePatrons +=name
         uniquePatrons.distinct()
     }
     println(uniquePatrons)
     var orderCounter = 0
     while(orderCounter<=9){
-        placeHolder(uniquePatrons.shuffled().first(),menuList.shuffled().first())
+        placeHolder(uniquePatrons.randomizer(),menuList.randomizer())
         orderCounter++
     }
     //println(patronGold)
@@ -79,7 +84,7 @@ private fun placeHolder(patronName:String,menuData:String) {
     println(phrase)
 }
 private fun displayPatronBalance(){
-    patronGold.forEach{ patron,balance->
+    patronGold.forEach{ patron, balance->
          println("$patron, balance : ${"%.2f".format(balance)}")
         }
     }

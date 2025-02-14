@@ -1,4 +1,5 @@
 package com.bignerdranch.nyethack
+import com.bignerdranch.nyethack.extensions.random as randomizer
 import Coordinate
 import Fightable
 import java.io.File
@@ -36,8 +37,7 @@ class Player(_name:String, override var healthPoints:Int=100,
                 .readText()
                 .split("\n").map{it.trim()
                 }
-                .shuffled()
-                .first()  // Select a random town from the list
+                .randomizer()  // Select a random town from the list
         } catch (e: Exception) {
             "Unknown" // Return "Unknown" if the file is not found or something goes wrong
         }
