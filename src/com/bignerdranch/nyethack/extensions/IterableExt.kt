@@ -1,5 +1,6 @@
 package com.bignerdranch.nyethack.extensions
 fun <T> Iterable<T>.random(): T = this.shuffled().first()
+
 fun String.toDragonSpeak():String{
     return this.replace(Regex("[aeiouAEIOU]")) {
         when (it.value) {
@@ -11,4 +12,14 @@ fun String.toDragonSpeak():String{
             else -> it.value
         }
     }
+}
+
+fun String.frame(padding: Int):String{
+    val greeting="$this!"
+    val formatChar = "*"
+    val middle = formatChar.padEnd(padding)
+        .plus(greeting)
+    .plus(formatChar.padStart(padding))
+    val end = (0 until middle.length).joinToString("") { formatChar }
+    return "$end\n$middle\n$end"
 }
