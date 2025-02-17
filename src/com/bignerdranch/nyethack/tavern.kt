@@ -1,5 +1,6 @@
 package com.bignerdranch.nyethack
 import com.bignerdranch.nyethack.extensions.random as randomizer
+import com.bignerdranch.nyethack.extensions.toDragonSpeak
 import java.io.File
 const val TAVERN_NAME = "Taernyl's Folly"
 var dragonCoin = 5.00
@@ -77,7 +78,7 @@ private fun placeHolder(patronName:String,menuData:String) {
     val message = "$patronName buys a $name ($type) for $price."
     performPurchase(price.toDouble(),patronName)
     val phrase=if(name=="Dragon's Breath"){
-        "$patronName exclaims: ${toDragonSpeak("Ah, delicious $name!")}"
+        "$patronName exclaims: ${("Ah, delicious $name!").toDragonSpeak()}"
     }else{
         "$patronName says: thanks for $name"
     }
